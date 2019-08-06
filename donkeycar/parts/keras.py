@@ -314,12 +314,12 @@ def default_categorical(input_shape=(120, 160, 3), roi_crop=(0, 0)):
     x = Dense(50, activation='relu', name="fc_2")(x)                                     # Classify the data into 50 features, make all negatives 0
     x = Dropout(drop)(x)                                                      # Randomly drop out 10% of the neurons (Prevent overfitting)
     #categorical output of the angle
-    angle_out = Dense(15, activation='softmax', name='angle_out')(x)        # Connect every input with every output and output 15 hidden units. Use Softmax to give percentage. 15 categories and find best one based off percentage 0.0-1.0
+    out[0] = Dense(15, activation='softmax', name='angle_out')(x)        # Connect every input with every output and output 15 hidden units. Use Softmax to give percentage. 15 categories and find best one based off percentage 0.0-1.0
     
     #continous output of throttle
-    throttle_out = Dense(20, activation='softmax', name='throttle_out')(x)      # Reduce to 1 number, Positive number only
+    out[1] = Dense(20, activation='softmax', name='throttle_out')(x)      # Reduce to 1 number, Positive number only
     
-    model = Model(inputs=[img_in], outputs=[angle_out, throttle_out])
+    model = Model(inputs=[img_in], outputs= [out]) #[angle_out, throttle_out])
     return model
 
 
